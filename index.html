@@ -1,0 +1,62 @@
+// TimePe Customer Panel - React Functional Booking Page with Tailwind CSS
+
+import React, { useState } from "react"; import { Card, CardContent } from "@/components/ui/card"; import { Button } from "@/components/ui/button"; import { Input } from "@/components/ui/input"; import { Textarea } from "@/components/ui/textarea"; import { MapPin, Bike, Package } from "lucide-react";
+
+export default function CustomerBookingPanel() { const [pickup, setPickup] = useState(""); const [drop, setDrop] = useState(""); const [category, setCategory] = useState(""); const [fare, setFare] = useState(null); const [bookingConfirmed, setBookingConfirmed] = useState(false);
+
+const estimateFare = () => { if (pickup && drop) { // Dummy calculation, replace with real API call const baseFare = 30; const distanceFare = 15; setFare(baseFare + distanceFare); } };
+
+const confirmBooking = () => { setBookingConfirmed(true); };
+
+return ( <div className="max-w-2xl mx-auto p-4 space-y-6"> <h1 className="text-2xl font-bold text-center">🚀 TimePe Delivery Booking</h1> <Card> <CardContent className="space-y-4"> <div className="space-y-2"> <label className="font-medium">Pickup Address</label> <Input placeholder="Enter pickup location" value={pickup} onChange={(e) => setPickup(e.target.value)} icon={<MapPin />} />
+
+<label className="font-medium">Drop Address</label>
+        <Input
+          placeholder="Enter drop location"
+          value={drop}
+          onChange={(e) => setDrop(e.target.value)}
+          icon={<MapPin />}
+        />
+
+        <label className="font-medium">Delivery Category</label>
+        <select
+          className="w-full border rounded-md p-2"
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+        >
+          <option value="">--Select--</option>
+          <option value="documents">📄 Documents</option>
+          <option value="food">🍔 Food</option>
+          <option value="medicine">💊 Medicine</option>
+          <option value="bike">🏍️ Bike Delivery</option>
+          <option value="parcel">📦 Parcel</option>
+        </select>
+
+        <Button onClick={estimateFare} className="w-full">
+          Estimate Fare
+        </Button>
+
+        {fare && (
+          <div className="text-green-600 font-semibold">
+            Estimated Fare: ₹{fare}
+          </div>
+        )}
+
+        {fare && (
+          <Button onClick={confirmBooking} className="w-full bg-blue-600">
+            Confirm Booking
+          </Button>
+        )}
+
+        {bookingConfirmed && (
+          <div className="text-center text-blue-700 mt-4">
+            ✅ Your booking is confirmed! A delivery partner will be assigned shortly.
+          </div>
+        )}
+      </div>
+    </CardContent>
+  </Card>
+</div>
+
+); }
+
